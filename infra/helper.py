@@ -249,7 +249,7 @@ def check_project_exists(project_name):
 
 def _check_fuzzer_exists(project_name, fuzzer_name):
   """Checks if a fuzzer exists."""
-  command = [CONTAINER_ENGINE, 'run', '--rm']
+  command = [CONTAINER_ENGINE, 'run', '--rm', '-q']
   command.extend(['-v', '%s:/out' % _get_output_dir(project_name)])
   command.append('ubuntu:16.04')
 
@@ -415,7 +415,7 @@ def _workdir_from_dockerfile(project_name):
 
 def docker_run(run_args, print_output=True):
   """Call `docker run`."""
-  command = [CONTAINER_ENGINE, 'run', '--rm']
+  command = [CONTAINER_ENGINE, 'run', '--rm', '-q']
 
   if CONTAINER_ENGINE != 'podman':
     command.append('--privileged')
@@ -441,7 +441,7 @@ def docker_run(run_args, print_output=True):
 
 def docker_build(build_args, pull=False):
   """Call `docker build`."""
-  command = [CONTAINER_ENGINE, 'build']
+  command = [CONTAINER_ENGINE, 'build', '-q']
   if pull:
     command.append('--pull')
 
@@ -459,7 +459,7 @@ def docker_build(build_args, pull=False):
 
 def docker_pull(image):
   """Call `docker pull`."""
-  command = [CONTAINER_ENGINE, 'pull', image]
+  command = [CONTAINER_ENGINE, 'pull', '-q', image]
   print('Running:', _get_command_string(command))
 
   try:
